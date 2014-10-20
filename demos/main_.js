@@ -3,7 +3,7 @@
   function appendProtocol(url) {
     return window.location.protocol + url;
   }
-  var default_tile_source = 'mapbox', rS;
+  var default_tile_source = 'mapzen-mvt', rS;
   var tile_sources = {
     'mapzen': {
       source: {
