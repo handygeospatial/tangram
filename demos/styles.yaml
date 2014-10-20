@@ -7,7 +7,7 @@ camera:
     # type: isometric
     # axis: [1, .5]
 
-    # type: flat
+    type: flat
 
 modes:
     # note: consider this syntax as a special case for global mode settings
@@ -470,10 +470,7 @@ layers:
             name: points
             # name: formica
         filter: function (f) { return f.properties.name != null; }
-        # visible: false
         interactive: true
-        # z:
-        #     default: 25
         color:
             default: [1, 1, 0]
         size:
