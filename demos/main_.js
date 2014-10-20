@@ -121,7 +121,7 @@
   }
 
   var map = L.map('map', {
-    maxZoom: 22, inertia: false, keyboard: false
+    maxZoom: 22, inertia: true, keyboard: true
   });
 
   var layer = Tangram.leafletLayer({
@@ -490,8 +490,8 @@
 
     addGUIDefines();
 
-    gui['feature info'] = false;
-    gui.add(gui, 'feature info');
+    gui['地物情報'] = false;
+    gui.add(gui, '地物情報');
 
     var layer_gui = gui.addFolder('レイヤ');
     var layer_controls = {};
@@ -514,7 +514,6 @@
         selection_info.setAttribute('class', 'label');
         selection_info.style.display = 'block';
 
-        // Show selected feature on hover
         scene.container.addEventListener('mousemove', function (event) {
             if (gui['feature info'] == false) {
                 if (selection_info.parentNode != null) {
