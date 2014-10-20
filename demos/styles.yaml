@@ -1,21 +1,10 @@
 camera:
     type: perspective
-    # focal_length: 1
-    focal_length: [[16, 2], [17, 2.5], [18, 3], [19, 4], [20, 6]] # pairs of [zoom, focal len]
+    focal_length: [[16, 2], [17, 2.5], [18, 3], [19, 4], [20, 6]]
     vanishing_point: [-.25, -.25]
-
-    # type: isometric
-    # axis: [1, .5]
-
     type: flat
 
 modes:
-    # note: consider this syntax as a special case for global mode settings
-    # all:
-    #     shaders:
-    #         transforms:
-    #             fragment: { url: demos/shaders/spotlight.glsl }
-
     water:
         extends: polygons
         animated: true
@@ -95,8 +84,6 @@ modes:
         extends: polygons
         animated: true
         shaders:
-            # defines:
-            #     BREATHE_SCALE: 10
             uniforms:
                 u_breathe_scale: 10
                 u_breathe_speed: 1
@@ -135,13 +122,6 @@ modes:
             transforms:
                 globals: { url: 'demos/shaders/wood.glsl' }
                 fragment: color = lighting * wood(v_world_position.xyz);
-        # buildPolygons: |
-        #     function (polygons, style, vertex_data) {
-        #         // Test overloading the geometry builder
-        #         // var c = Geo.polygonCentroidSimple(polygons[0]);
-        #         polygons = [ [ [ polygons[0][0][0], polygons[0][0][1], polygons[0][0][2], polygons[0][0][0] ] ] ];
-        #         this.parent.buildPolygons(polygons, style, vertex_data);
-        #     }
 
     envmap:
         extends: polygons
@@ -153,12 +133,11 @@ modes:
             transforms:
                 # fragment: color = mix(color_prelight, color_prelight * lighting, sin(u_time) / 2. + .5); // fade lighting in and out
 
-    # Halftone shader adapted from: http://webstaff.itn.liu.se/~stegu/webglshadertutorial/shadertutorial.html
     halftone:
         extends: polygons
         shaders:
             uniforms:
-                # halftone_colored: false # boolean to flip colored dots on and off
+
             transforms:
                 globals: |
                     // uniform bool halftone_colored;
@@ -360,7 +339,8 @@ modes:
 layers:
     earth:
         color:
-            default: [0.175, 0.175, 0.175]
+            default: [1, 1, 1]
+            # default: [0.175, 0.175, 0.175]
 
     landuse:
         interactive: true
