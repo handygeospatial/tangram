@@ -3,28 +3,12 @@
   function appendProtocol(url) {
     return window.location.protocol + url;
   }
-  var default_tile_source = 'mapzen', rS;
+  var default_tile_source = 'mapbox', rS;
   var tile_sources = {
     'mapzen': {
       source: {
         type: 'GeoJSONTileSource',
         url:  appendProtocol('//vector.mapzen.com/osm/all/{z}/{x}/{y}.json')
-      },
-      layers: 'demos/layers.yaml',
-      styles: 'demos/styles.yaml'
-    },
-    'mapzen-dev': {
-      source: {
-        type: 'GeoJSONTileSource',
-        url: appendProtocol('//vector.dev.mapzen.com/osm/all/{z}/{x}/{y}.json')
-      },
-      layers: 'demos/layers.yaml',
-      styles: 'demos/styles.yaml'
-    },
-    'mapzen-local': {
-      source: {
-        type: 'GeoJSONTileSource',
-        url: 'http://localhost:8080/all/{z}/{x}/{y}.json'
       },
       layers: 'demos/layers.yaml',
       styles: 'demos/styles.yaml'
@@ -91,7 +75,6 @@
   }
 
   var map_start_location = locations['Tsukuba'];
-
   if (url_hash.length == 3) {
       map_start_location = url_hash.slice(0, 3);
   }
@@ -101,7 +84,6 @@
   else if (url_hash.length == 2) {
       map_start_location = locations[url_hash[1]];
   }
-
   if (url_hash.length > 4) {
     var url_ui = url_hash.slice(4);
     var url_mode;
@@ -131,11 +113,7 @@
   function updateURL() {
     var map_latlng = map.getCenter(),
       url_options = [default_tile_source, map_latlng.lat, map_latlng.lng, map.getZoom()];
-
-    if (rS) {
-      url_options.push('rstats');
-    }
-
+    if (rS) {url_options.push('rstats');}
     if (gl_mode_options && gl_mode_options.effect != '') {
       url_options.push('mode=' + gl_mode_options.effect);
     }
@@ -143,9 +121,7 @@
   }
 
   var map = L.map('map', {
-    maxZoom: 22,
-    inertia: false,
-    keyboard: false
+    maxZoom: 22, inertia: false, keyboard: false
   });
 
   var layer = Tangram.leafletLayer({
@@ -160,7 +136,6 @@
 
   var scene = layer.scene;
   window.scene = scene;
-
   map.attributionControl.setPrefix('');
   map.setView(map_start_location.slice(0, 2), map_start_location[2]);
   map.on('moveend', updateURL);
@@ -518,31 +493,23 @@
     gui['feature info'] = false;
     gui.add(gui, 'feature info');
 
-        // Layers
-        var layer_gui = gui.addFolder('レイヤ');
-        var layer_controls = {};
-        layer.scene.layers.forEach(function(l) {
-            if (layer.scene.styles.layers[l.name] == null) {
-                return;
-            }
-
-            layer_controls[l.name] = !(layer.scene.styles.layers[l.name].visible == false);
-            layer_gui.
-                add(layer_controls, l.name).
-                onChange(function(value) {
-                    layer.scene.styles.layers[l.name].visible = value;
-                    layer.scene.rebuildTiles();
-                });
+    var layer_gui = gui.addFolder('レイヤ');
+    var layer_controls = {};
+    layer.scene.layers.forEach(function(l) {
+      if (layer.scene.styles.layers[l.name] == null) {return;}
+      layer_controls[l.name] = !(layer.scene.styles.layers[l.name].visible == false);
+      layer_gui.
+        add(layer_controls, l.name).
+        onChange(function(value) {
+          layer.scene.styles.layers[l.name].visible = value;
+          layer.scene.rebuildTiles();
         });
-
-        // Modes
-        gui.add(gl_mode_options, 'effect', gl_mode_options.options).
-            onChange(gl_mode_options.setup.bind(gl_mode_options));
+      });
+      gui.add(gl_mode_options, 'effect', gl_mode_options.options).
+      onChange(gl_mode_options.setup.bind(gl_mode_options));
     }
 
-    // Feature selection
     function initFeatureSelection () {
-        // Selection info shown on hover
         var selection_info = document.createElement('div');
         selection_info.setAttribute('class', 'label');
         selection_info.style.display = 'block';
@@ -553,7 +520,6 @@
                 if (selection_info.parentNode != null) {
                     selection_info.parentNode.removeChild(selection_info);
                 }
-
                 return;
             }
 
@@ -564,20 +530,10 @@
                 function (selection) {
                     var feature = selection.feature;
                     if (feature != null) {
-                        // console.log("selection map: " + JSON.stringify(feature));
-
                         var label = '';
                         if (feature.properties.name != null) {
                             label = feature.properties.name;
                         }
-
-                        // if (feature.properties.layer == 'buildings' && feature.properties.height) {
-                        //     if (label != '') {
-                        //         label += '<br>';
-                        //     }
-                        //     label += feature.properties.height + 'm';
-                        // }
-
                         if (label != '') {
                             selection_info.style.left = (pixel.x + 5) + 'px';
                             selection_info.style.top = (pixel.y + 15) + 'px';
@@ -594,7 +550,6 @@
                 }
             );
 
-            // Don't show labels while panning
             if (scene.panning == true) {
                 if (selection_info.parentNode != null) {
                     selection_info.parentNode.removeChild(selection_info);
@@ -619,8 +574,7 @@
     }
 
     function frame () {
-
-        if (rS != null) { // rstats
+        if (rS != null) {
             rS('frame').start();
             rS('fps').frame();
 
@@ -631,7 +585,7 @@
 
         layer.render();
 
-        if (rS != null) { // rstats
+        if (rS != null) {
             rS('frame').end();
             rS('rendertiles').set(scene.renderable_tiles_count);
             rS('glbuffers').set((scene.getDebugSum('buffer_size') / (1024*1024)).toFixed(2));
@@ -664,6 +618,4 @@
         layer.addTo(map);
         frame();
     });
-
-
 }());
