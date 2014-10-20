@@ -59,11 +59,11 @@
     lighting: {
       lighting: 'LIGHTING_DIRECTION',
       options: {
-        'None': '',
-        'Diffuse': 'LIGHTING_POINT',
-        'Specular': 'LIGHTING_POINT_SPECULAR',
-        'Flat': 'LIGHTING_DIRECTION',
-        'Night': 'LIGHTING_NIGHT'
+        'なし': '',
+        '拡散': 'LIGHTING_POINT',
+        '反射': 'LIGHTING_POINT_SPECULAR',
+        'フラット': 'LIGHTING_DIRECTION',
+        '夜': 'LIGHTING_NIGHT'
       }
     }
   };
@@ -186,18 +186,18 @@
   var gl_mode_options = {
     effect: url_mode || '',
     options: {
-      'None': '',
-      'Elevator': 'elevator',
-      'Breathe': 'breathe',
-      'Pop-up': 'popup',
-      'Dots': 'dots',
-      'Wood': 'wood',
-      'B&W Halftone': 'halftone',
-      'Color Halftone': 'colorhalftone',
-      'Windows': 'windows',
-      'Environment Map': 'envmap',
-      'Color Bleed': 'colorbleed',
-      'Rainbow': 'rainbow'
+      'なし': '',
+      'エレベータ': 'elevator',
+      '呼吸': 'breathe',
+      'ポップアップ': 'popup',
+      'ドット': 'dots',
+      '木材': 'wood',
+      '白黒ハーフトーン': 'halftone',
+      'カラーハーフトーン': 'colorhalftone',
+      '窓': 'windows',
+      '環境地図': 'envmap',
+      'カラー混合': 'colorbleed',
+      '虹': 'rainbow'
     },
     setup: function (mode) {
       var layer_styles = scene.styles.layers;
@@ -478,9 +478,9 @@
     };
 
     var camera_types = {
-      'Flat': 'flat',
-      'Perspective': 'perspective',
-      'Isometric': 'isometric'
+      '二次元': 'flat',
+      '中心投影': 'perspective',
+      '等角投影': 'isometric'
     };
     gui.camera = layer.scene.styles.camera.type;
     gui.add(gui, 'camera', camera_types).onChange(function(value) {
@@ -490,8 +490,8 @@
 
     addGUIDefines();
 
-    gui['地物情報'] = false;
-    gui.add(gui, '地物情報');
+    gui['feature info'] = false;
+    gui.add(gui, 'feature info');
 
     var layer_gui = gui.addFolder('レイヤ');
     var layer_controls = {};
